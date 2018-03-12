@@ -1,6 +1,6 @@
 
 /*
-  © [2011]. California Institute of Technology.
+  © [2018]. California Institute of Technology.
   ALL RIGHTS RESERVED. U.S. Government sponsorship acknowledged.
   Any commercial use must be negotiated with the Office of Technology
   Transfer at the California Institute of Technology. The technical data in

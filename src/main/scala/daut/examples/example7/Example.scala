@@ -10,9 +10,9 @@ case class abort(thread:Int) extends Event
 
 
 /**
-  * A task acquiring a lock should eventually release it.
+  * A task acquiring a lock should eventually release it.
 
-  * This monitor illustrates during predicate and invariants.
+  * This monitor illustrates the during predicate and invariants.
   */
 
 class TestMonitor extends Monitor[Event] {

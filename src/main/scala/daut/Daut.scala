@@ -237,6 +237,7 @@ class Monitor[E <: AnyRef] {
   }
 
   def verify(event: E) {
+    verifyBeforeEvent(event)
     if (PRINT) Monitor.printEvent(event)
     for (sourceState <- states) {
       sourceState(event) match {
@@ -261,6 +262,7 @@ class Monitor[E <: AnyRef] {
     for (monitor <- monitors) {
       monitor.verify(event)
     }
+    verifyAfterEvent(event)
   }
 
   def end() {
@@ -281,6 +283,22 @@ class Monitor[E <: AnyRef] {
   def apply(event: E): Unit = {
     verify(event)
   }
+
+  /**
+    * This method is called <b>before</b> every call of <code>verify(event: E)</code>.
+    * It can be overridden by user. Its body is by default empty.
+    *
+    * @param event the event being verified.
+    */
+  def verifyBeforeEvent(event: E) {}
+
+  /**
+    * This method is called <b>after</b> every call of <code>verify(event: E)</code>.
+    * It can be overridden by user. Its body is by default empty.
+    *
+    * @param event the event being verified.
+    */
+  def verifyAfterEvent(event: E) {}
 
   def printStates() {
     if (!states.isEmpty) {

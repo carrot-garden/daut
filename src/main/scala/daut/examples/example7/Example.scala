@@ -22,6 +22,14 @@ class TestMonitor extends Monitor[Event] {
   invariant {
     !(critical1 && critical2)
   }
+
+  override def verifyBeforeEvent(event: Event): Unit = {
+    println(s"BEGIN PROCESS $event")
+  }
+
+  override def verifyAfterEvent(event: Event): Unit = {
+    println(s"END PROCESS $event")
+  }
 }
 
 object Main {

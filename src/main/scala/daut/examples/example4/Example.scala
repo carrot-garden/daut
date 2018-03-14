@@ -80,6 +80,7 @@ class TestMonitor extends Monitor[LockEvent] {
 object Main {
   def main(args: Array[String]) {
     val m = new TestMonitor
+    m.PRINT = true
     m.verify(acquire(2,  1))
     m.verify(acquire(2,  5))
     m.verify(acquire(1, 10))

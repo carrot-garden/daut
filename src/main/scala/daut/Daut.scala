@@ -10,7 +10,7 @@
 
 package daut
 
-class Monitor[E <: AnyRef] {
+class Monitor[E] {
   private val monitorName = this.getClass().getSimpleName()
   private var monitors: List[Monitor[E]] = List()
   private var states: Set[state] = Set()
@@ -192,7 +192,7 @@ class Monitor[E <: AnyRef] {
     if (!b) printErrorMessage()
   }
 
-  def check(b: Boolean, e: String) : Unit = {
+  def check(b: Boolean, e: String): Unit = {
     if (!b) printErrorMessage(e)
   }
 
@@ -238,7 +238,7 @@ class Monitor[E <: AnyRef] {
 
   def verify(event: E) {
     verifyBeforeEvent(event)
-    if (PRINT) Monitor.printEvent(event)
+    if (PRINT) printEvent(event)
     for (sourceState <- states) {
       sourceState(event) match {
         case None =>
@@ -300,20 +300,20 @@ class Monitor[E <: AnyRef] {
     */
   def verifyAfterEvent(event: E) {}
 
+  def printEvent(event: E) {
+    println("\n===[" + event + "]===\n")
+  }
+
   def printStates() {
-    if (!states.isEmpty) {
-      val topline = "--- " + monitorName + ("-" * 20)
-      val bottomline = "-" * topline.length
-      println(topline)
-      for (s <- states) {
-        println(s)
-      }
-      println(bottomline)
-      println()
-    } else {
-      println("no states in " + monitorName)
-      println()
+    val topline = "--- " + monitorName + ("-" * 20)
+    val bottomline = "-" * topline.length
+    println(topline)
+    for (s <- states) {
+      println(s)
     }
+    println(bottomline)
+    println()
+    for (m <- monitors) m.printStates()
   }
 
   def printErrorMessage() {
@@ -329,7 +329,9 @@ class Monitor[E <: AnyRef] {
         """.stripMargin)
     }
     errorCount += 1
-    if (STOP_ON_ERROR) { throw new RuntimeException }
+    if (STOP_ON_ERROR) {
+      throw new RuntimeException
+    }
   }
 
   def printErrorMessage(e: String): Unit = {
@@ -338,16 +340,5 @@ class Monitor[E <: AnyRef] {
     println("***********")
     printErrorMessage()
     errorCount += 1
-  }
-}
-
-object Monitor {
-  var currentEvent: AnyRef = null
-
-  def printEvent(event: AnyRef) {
-    if (!(event eq currentEvent)) {
-      println("\n===[" + event + "]===\n")
-      currentEvent = event
-    }
   }
 }

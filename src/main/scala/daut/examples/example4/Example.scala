@@ -85,5 +85,6 @@ object Main {
     m.verify(acquire(2,  5))
     m.verify(acquire(1, 10))
     m.verify(acquire(2, 10))
+    println(s"Number of errors: ${m.getErrorCount}")
   }
 }

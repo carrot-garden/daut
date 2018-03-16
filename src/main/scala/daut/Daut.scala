@@ -304,6 +304,12 @@ class Monitor[E] {
     println("\n===[" + event + "]===\n")
   }
 
+  def getErrorCount: Int = {
+    var count = errorCount
+    for (m <- monitors) count += m.getErrorCount
+    count
+  }
+
   def printStates() {
     val topline = "--- " + monitorName + ("-" * 20)
     val bottomline = "-" * topline.length
